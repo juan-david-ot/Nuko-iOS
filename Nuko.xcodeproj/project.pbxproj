@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXFileReference section */
@@ -21,10 +21,8 @@
 /* Begin PBXFrameworksBuildPhase section */
 		3D7ADAE62F7479DA00FF7ED4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -58,14 +56,10 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			fileSystemSynchronizedGroups = (
 				3D7ADAEB2F7479DA00FF7ED4 /* Nuko */,
 			);
 			name = Nuko;
-			packageProductDependencies = (
-			);
 			productName = Nuko;
 			productReference = 3D7ADAE92F7479DA00FF7ED4 /* Nuko.app */;
 			productType = "com.apple.product-type.application";
@@ -94,7 +88,7 @@
 			);
 			mainGroup = 3D7ADAE02F7479DA00FF7ED4;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 3D7ADAEA2F7479DA00FF7ED4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -107,25 +101,21 @@
 /* Begin PBXResourcesBuildPhase section */
 		3D7ADAE72F7479DA00FF7ED4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3D7ADAE52F7479DA00FF7ED4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		3D7ADAF22F7479DC00FF7ED4 /* Debug */ = {
+		3D7ADAF22F7479DC00FF7ED4 /* Debug configuration for PBXProject "Nuko" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -187,7 +177,7 @@
 			};
 			name = Debug;
 		};
-		3D7ADAF32F7479DC00FF7ED4 /* Release */ = {
+		3D7ADAF32F7479DC00FF7ED4 /* Release configuration for PBXProject "Nuko" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -241,7 +231,7 @@
 			};
 			name = Release;
 		};
-		3D7ADAF52F7479DC00FF7ED4 /* Debug */ = {
+		3D7ADAF52F7479DC00FF7ED4 /* Debug configuration for PBXNativeTarget "Nuko" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -268,7 +258,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "juan-david-ot.Nuko";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -285,7 +275,7 @@
 			};
 			name = Debug;
 		};
-		3D7ADAF62F7479DC00FF7ED4 /* Release */ = {
+		3D7ADAF62F7479DC00FF7ED4 /* Release configuration for PBXNativeTarget "Nuko" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -312,7 +302,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "juan-david-ot.Nuko";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -335,19 +325,17 @@
 		3D7ADAE42F7479DA00FF7ED4 /* Build configuration list for PBXProject "Nuko" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3D7ADAF22F7479DC00FF7ED4 /* Debug */,
-				3D7ADAF32F7479DC00FF7ED4 /* Release */,
+				3D7ADAF22F7479DC00FF7ED4 /* Debug configuration for PBXProject "Nuko" */,
+				3D7ADAF32F7479DC00FF7ED4 /* Release configuration for PBXProject "Nuko" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		3D7ADAF42F7479DC00FF7ED4 /* Build configuration list for PBXNativeTarget "Nuko" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3D7ADAF52F7479DC00FF7ED4 /* Debug */,
-				3D7ADAF62F7479DC00FF7ED4 /* Release */,
+				3D7ADAF52F7479DC00FF7ED4 /* Debug configuration for PBXNativeTarget "Nuko" */,
+				3D7ADAF62F7479DC00FF7ED4 /* Release configuration for PBXNativeTarget "Nuko" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
