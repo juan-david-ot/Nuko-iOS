@@ -57,7 +57,6 @@ struct ContentView: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
-        .background(Color(.accent))
     }
 }
 
