@@ -11,49 +11,59 @@ struct ContentView: View {
     var body: some View {
         TabView {
             Tab("Home", systemImage: "house.fill") {
-                VStack {
-                    Image(systemName: "house.fill")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    Text("Hello, Home!")
+                NavigationStack {
+                    VStack {
+                        Image(systemName: "house.fill")
+                            .imageScale(.large)
+                            .foregroundStyle(.tint)
+                        Text("Hello, Home!")
+                    }
+                    .padding()
                 }
-                .padding()
             }
             Tab("Calendario", systemImage: "calendar") {
-                VStack {
-                    Image(systemName: "calendar")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    Text("Hello, Calendar!")
+                NavigationStack {
+                    VStack {
+                        Image(systemName: "calendar")
+                            .imageScale(.large)
+                            .foregroundStyle(.tint)
+                        Text("Hello, Calendar!")
+                    }
+                    .padding()
                 }
-                .padding()
             }
             Tab("Finanzas", systemImage: "dollarsign") {
-                VStack {
-                    Image(systemName: "dollarsign")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    Text("Hello, Finances!")
+                NavigationStack {
+                    VStack {
+                        Image(systemName: "dollarsign")
+                            .imageScale(.large)
+                            .foregroundStyle(.tint)
+                        Text("Hello, Finances!")
+                    }
+                    .padding()
                 }
-                .padding()
             }
             Tab ("Tareas", systemImage: "checklist.unchecked") {
-                VStack {
-                    Image(systemName: "checklist.unchecked")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    Text("Hello, Checklist!")
+                NavigationStack {
+                    VStack {
+                        Image(systemName: "checklist.unchecked")
+                            .imageScale(.large)
+                            .foregroundStyle(.tint)
+                        Text("Hello, Checklist!")
+                    }
+                    .padding()
                 }
-                .padding()
             }
             Tab("Ajustes", systemImage: "gearshape.fill") {
-                VStack {
-                    Image(systemName: "gearshape.fill")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    Text("Hello, Gearshape!")
+                NavigationStack {
+                    VStack {
+                        Image(systemName: "gearshape.fill")
+                            .imageScale(.large)
+                            .foregroundStyle(.tint)
+                        Text("Hello, Gearshape!")
+                    }
+                    .padding()
                 }
-                .padding()
             }
         }
         .tabViewStyle(.sidebarAdaptable)
