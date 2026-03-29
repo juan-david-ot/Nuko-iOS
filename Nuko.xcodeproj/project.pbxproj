@@ -80,11 +80,12 @@
 				};
 			};
 			buildConfigurationList = 3D7ADAE42F7479DA00FF7ED4 /* Build configuration list for PBXProject "Nuko" */;
-			developmentRegion = en;
+			developmentRegion = es;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 3D7ADAE02F7479DA00FF7ED4;
 			minimizedProjectReferenceProxies = 1;
