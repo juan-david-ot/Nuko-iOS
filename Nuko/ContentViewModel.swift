@@ -18,4 +18,10 @@ final class ContentViewModel: ObservableObject {
     func example(text: String) {
         print(text)
     }
+    
+    func requestExample() async throws -> String {
+        let url = URL(string: "example")
+        let (data, response) = try await URLSession.shared.data(from: url!)
+        return "working"
+    }
 }
