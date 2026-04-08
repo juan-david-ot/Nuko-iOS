@@ -1,6 +1,6 @@
 # 💾 Nuko-iOS
 
-Nuko is an ecosystem. This repository contains Nuko-iOS, the native iOS application.
+Nuko is a multi-platform application. This repository contains Nuko-iOS, the native iOS application.
 
 ---
 
