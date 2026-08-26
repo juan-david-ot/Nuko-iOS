@@ -6,6 +6,11 @@
 	objectVersion = 90;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3D71DAF3303F867B001D10F5 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3D71DAF2303F867B001D10F5 /* Alamofire */; };
+		3D71DAF5303F867B001D10F5 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 3D71DAF4303F867B001D10F5 /* AlamofireDynamic */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		3D7ADAE92F7479DA00FF7ED4 /* Nuko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nuko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -22,6 +27,8 @@
 		3D7ADAE62F7479DA00FF7ED4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				3D71DAF3303F867B001D10F5 /* Alamofire in Frameworks */,
+				3D71DAF5303F867B001D10F5 /* AlamofireDynamic in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -60,6 +67,10 @@
 				3D7ADAEB2F7479DA00FF7ED4 /* Nuko */,
 			);
 			name = Nuko;
+			packageProductDependencies = (
+				3D71DAF2303F867B001D10F5 /* Alamofire */,
+				3D71DAF4303F867B001D10F5 /* AlamofireDynamic */,
+			);
 			productName = Nuko;
 			productReference = 3D7ADAE92F7479DA00FF7ED4 /* Nuko.app */;
 			productType = "com.apple.product-type.application";
@@ -89,6 +100,9 @@
 			);
 			mainGroup = 3D7ADAE02F7479DA00FF7ED4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3D71DAF1303F867B001D10F5 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = 3D7ADAEA2F7479DA00FF7ED4 /* Products */;
 			projectDirPath = "";
@@ -350,6 +364,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3D71DAF1303F867B001D10F5 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3D71DAF2303F867B001D10F5 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D71DAF1303F867B001D10F5 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		3D71DAF4303F867B001D10F5 /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D71DAF1303F867B001D10F5 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3D7ADAE12F7479DA00FF7ED4 /* Project object */;
 }
