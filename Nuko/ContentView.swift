@@ -10,26 +10,16 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject private var authEnvironment: AuthEnvironment
     
-    func logIn() async {
-        do {
-            let user = try await AuthService.logIn(user: User(username: "", password: ""))
-            authEnvironment.token = user
-        }
-        catch {
-            print(error)
-        }
-    }
-    
     var body: some View {
-        if authEnvironment.token != nil {
-            AppView()
+        if authEnvironment.isLoading {
+            ProgressView()
         }
         else {
-            Text("Inicia sesion")
-            Button("Log in") {
-                Task {
-                    await logIn()
-                }
+            if authEnvironment.user != nil {
+                AppView()
+            }
+            if authEnvironment.user == nil {
+                AuthView()
             }
         }
     }

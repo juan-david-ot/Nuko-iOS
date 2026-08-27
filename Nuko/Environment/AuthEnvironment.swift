@@ -17,22 +17,17 @@ final class AuthEnvironment: ObservableObject {
     
     func authUser() async {
         let token = UserDefaults.standard.string(forKey: "authToken")
-        print("Token guardado:", token ?? "nil")
 
-        guard let token, !token.isEmpty else {
-                print("No hay token, deslogueando")
+        if token != nil {
+            do {
+                self.user = try await AuthService.verify()
+            } catch {
+                print(error)
                 await logOut()
-                return
             }
-        
-        do {
-            let authUser = try await AuthService.verify()
-            print("Verify OK:", authUser)
-            self.user = authUser
-        } catch {
-            print(error)
+        }
+        else {
             await logOut()
-            return
         }
         
         isLoading = false
