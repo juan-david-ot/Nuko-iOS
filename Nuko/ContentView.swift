@@ -8,11 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var authEnvironment: AuthEnvironment
+    
+    func logIn() async {
+        do {
+            let user = try await AuthService.logIn(user: User(username: "", password: ""))
+            authEnvironment.token = user
+        }
+        catch {
+            print(error)
+        }
+    }
+    
     var body: some View {
-        AppView()
+        if authEnvironment.token != nil {
+            AppView()
+        }
+        else {
+            Text("Inicia sesion")
+            Button("Log in") {
+                Task {
+                    await logIn()
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView().environmentObject(AuthEnvironment())
 }
