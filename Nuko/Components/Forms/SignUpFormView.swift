@@ -7,8 +7,12 @@
 
 import SwiftUI
 
+private enum FocusedField: Hashable {
+    case email, username, name, surname, password
+}
+
 struct SignUpFormView: View {
-    //    @EnvironmentObject private var authEnvironment: AuthEnvironment
+    @Binding var selectedTab: Int
     
     @State private var email = ""
     @State private var username = ""
@@ -16,8 +20,37 @@ struct SignUpFormView: View {
     @State private var surname = ""
     @State private var password = ""
     @State private var isPasswordVisible = false
-    @State private var errorMessage: String?
     @State private var isLoading = false
+    
+    @FocusState private var focus: FocusedField?
+    
+    @State private var emailError: String?
+    @State private var usernameError: String?
+    @State private var passwordError: String?
+    @State private var errorMessage: String?
+    
+    private func validate() -> Bool {
+        emailError = email.isEmpty ? "Este campo es obligatorio" : nil
+        usernameError = username.isEmpty ? "Este campo es obligatorio" : nil
+        passwordError = password.isEmpty ? "Este campo es obligatorio" : nil
+        return emailError == nil && usernameError == nil && passwordError == nil
+    }
+    
+    func signUp() async {
+        guard validate() else { return }
+        
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            _ = try await AuthService.signUp(user: User(email: email, username: username, password: password, name: name, surname: surname))
+            errorMessage = nil
+            selectedTab = 0
+        }
+        catch {
+            errorMessage = error.localizedDescription
+        }
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -28,29 +61,29 @@ struct SignUpFormView: View {
                 .foregroundStyle(.secondary)
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Email")
-                        .font(.footnote.bold())
+                    RequiredLabel(text: "Email")
                     TextField("Introduce tu email", text: $email)
                         .textFieldStyle(.plain)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .keyboardType(.emailAddress)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(Color(.systemBackground))
-                        .background(RoundedRectangle(cornerRadius: 12).strokeBorder(Color(.separator), lineWidth: 1))
+                        .focused($focus, equals: .email)
+                        .submitLabel(.go)
+                        .fieldContainerStyle(hasError: emailError != nil)
+                        .onChange(of: email) { _, _ in emailError = nil }
+                    FieldErrorText(text: emailError)
                 }
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Nombre de usuario")
-                        .font(.footnote.bold())
+                    RequiredLabel(text: "Nombre de usuario")
                     TextField("Introduce tu nombre de usuario", text: $username)
                         .textFieldStyle(.plain)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(Color(.systemBackground))
-                        .background(RoundedRectangle(cornerRadius: 12).strokeBorder(Color(.separator), lineWidth: 1))
+                        .focused($focus, equals: .username)
+                        .submitLabel(.go)
+                        .fieldContainerStyle(hasError: usernameError != nil)
+                        .onChange(of: username) { _, _ in usernameError = nil }
+                    FieldErrorText(text: usernameError)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Nombre")
@@ -58,10 +91,9 @@ struct SignUpFormView: View {
                     TextField("Introduce tu nombre", text: $name)
                         .textFieldStyle(.plain)
                         .autocorrectionDisabled()
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(Color(.systemBackground))
-                        .background(RoundedRectangle(cornerRadius: 12).strokeBorder(Color(.separator), lineWidth: 1))
+                        .focused($focus, equals: .name)
+                        .submitLabel(.go)
+                        .fieldContainerStyle()
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
@@ -70,22 +102,24 @@ struct SignUpFormView: View {
                     TextField("Introduce tu apellido", text: $surname)
                         .textFieldStyle(.plain)
                         .autocorrectionDisabled()
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(Color(.systemBackground))
-                        .background(RoundedRectangle(cornerRadius: 12).strokeBorder(Color(.separator), lineWidth: 1))
+                        .focused($focus, equals: .surname)
+                        .submitLabel(.go)
+                        .fieldContainerStyle()
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Contraseña")
-                        .font(.footnote.bold())
+                    RequiredLabel(text: "Contraseña")
                     
                     HStack {
                         Group {
                             if isPasswordVisible {
                                 TextField("Introduce tu contraseña", text: $password)
+                                    .focused($focus, equals: .password)
+                                    .submitLabel(.done)
                             } else {
                                 SecureField("Introduce tu contraseña", text: $password)
+                                    .focused($focus, equals: .password)
+                                    .submitLabel(.done)
                             }
                         }
                         .textInputAutocapitalization(.never)
@@ -101,10 +135,10 @@ struct SignUpFormView: View {
                         .buttonStyle(.plain)
                     }
                     .frame(height: 20)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(Color(.systemBackground))
-                    .background(RoundedRectangle(cornerRadius: 12).strokeBorder(Color(.separator), lineWidth: 1))
+                    .fieldContainerStyle(hasError: passwordError != nil)
+                    .onChange(of: password) { _, _ in passwordError = nil }
+                    
+                    FieldErrorText(text: passwordError)
                 }
                 
                 if let errorMessage {
@@ -114,14 +148,31 @@ struct SignUpFormView: View {
                 }
             }
             .padding(.top, 12)
+            .onSubmit {
+                switch focus {
+                case .email:
+                    focus = .username
+                case .username:
+                    focus = .name
+                case .name:
+                    focus = .surname
+                case .surname:
+                    focus = .password
+                case .password:
+                    focus = nil
+                    Task { await signUp() }
+                default:
+                    print("None")
+                }
+            }
             
-            HStack{
+            HStack {
                 Button {
-                    print("signup")
+                    Task { await signUp() }
                 } label: {
                     if isLoading {
                         ProgressView()
-                            .tint(.white)
+                            .tint(.accent)
                     } else {
                         Label("Registrarse", systemImage: "checkmark")
                             .foregroundStyle(.black)
@@ -137,5 +188,5 @@ struct SignUpFormView: View {
 }
 
 #Preview {
-    SignUpFormView()
+    SignUpFormView(selectedTab: .constant(1))
 }

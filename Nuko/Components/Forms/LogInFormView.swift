@@ -7,16 +7,33 @@
 
 import SwiftUI
 
+private enum FocusedField: Hashable {
+    case identifier, password
+}
+
 struct LogInFormView: View {
     @EnvironmentObject private var authEnvironment: AuthEnvironment
     
     @State private var identifier = ""
     @State private var password = ""
     @State private var isPasswordVisible = false
-    @State private var errorMessage: String?
     @State private var isLoading = false
+
+    @FocusState private var focus: FocusedField?
+    
+    @State private var identifierError: String?
+    @State private var passwordError: String?
+    @State private var errorMessage: String?
+    
+    private func validate() -> Bool {
+        identifierError = identifier.isEmpty ? "Este campo es obligatorio" : nil
+        passwordError = password.isEmpty ? "Este campo es obligatorio" : nil
+        return identifierError == nil && passwordError == nil
+    }
     
     func logIn() async {
+        guard validate() else { return }
+        
         isLoading = true
         defer { isLoading = false }
         
@@ -31,7 +48,7 @@ struct LogInFormView: View {
             errorMessage = nil
         }
         catch {
-            print(error)
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -45,28 +62,31 @@ struct LogInFormView: View {
             
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Email/Nombre de usuario")
-                        .font(.footnote.bold())
+                    RequiredLabel(text: "Email/Nombre de usuario")
                     TextField("Introduce tu email o nombre de usuario", text: $identifier)
                         .textFieldStyle(.plain)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(Color(.systemBackground))
-                        .background(RoundedRectangle(cornerRadius: 12).strokeBorder(Color(.separator), lineWidth: 1))
+                        .focused($focus, equals: .identifier)
+                        .submitLabel(.go)
+                        .fieldContainerStyle(hasError: identifierError != nil)
+                        .onChange(of: identifier) { _, _ in identifierError = nil }
+                    FieldErrorText(text: identifierError)
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Contraseña")
-                        .font(.footnote.bold())
+                    RequiredLabel(text: "Contraseña")
                     
                     HStack {
                         Group {
                             if isPasswordVisible {
                                 TextField("Introduce tu contraseña", text: $password)
+                                    .focused($focus, equals: .password)
+                                    .submitLabel(.go)
                             } else {
                                 SecureField("Introduce tu contraseña", text: $password)
+                                    .focused($focus, equals: .password)
+                                    .submitLabel(.done)
                             }
                         }
                         .textInputAutocapitalization(.never)
@@ -82,10 +102,9 @@ struct LogInFormView: View {
                         .buttonStyle(.plain)
                     }
                     .frame(height: 20)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(Color(.systemBackground))
-                    .background(RoundedRectangle(cornerRadius: 12).strokeBorder(Color(.separator), lineWidth: 1))
+                    .fieldContainerStyle(hasError: passwordError != nil)
+                    .onChange(of: password) { _, _ in passwordError = nil }
+                    FieldErrorText(text: passwordError)
                     
                     HStack {
                         Spacer()
@@ -104,6 +123,17 @@ struct LogInFormView: View {
                 }
             }
             .padding(.top, 12)
+            .onSubmit {
+                switch focus {
+                case .identifier:
+                    focus = .password
+                case .password:
+                    focus = nil
+                    Task { await logIn() }
+                default:
+                    print("None")
+                }
+            }
             
             HStack {
                 Button {
@@ -111,7 +141,7 @@ struct LogInFormView: View {
                 } label: {
                     if isLoading {
                         ProgressView()
-                            .tint(.white)
+                            .tint(.accent)
                     } else {
                         Label("Iniciar Sesión", systemImage: "checkmark").foregroundStyle(.black)
                     }

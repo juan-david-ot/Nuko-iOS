@@ -39,5 +39,20 @@ enum AF {
         )
     }()
 
-    static let baseURL = Bundle.main.infoDictionary?["API_BASE_URL"] as? String ?? "http://localhost:2608"
+    static let baseURL = Bundle.main.infoDictionary?["API_BASE_URL"] as? String ?? "https://api.nukoapp.com"
+}
+
+func decode<T: Decodable>(_ type: T.Type, from request: DataRequest, decoder: JSONDecoder = JSONDecoder.nukoDecoder) async throws -> T {
+    let response = await request.serializingDecodable(T.self, decoder: decoder).response
+
+    switch response.result {
+    case .success(let value):
+        return value
+    case .failure:
+        if let data = response.data,
+           let apiError = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
+            throw AppError.api(apiError.error)
+        }
+        throw AppError.unknown
+    }
 }

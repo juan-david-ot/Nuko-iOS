@@ -34,55 +34,49 @@ private nonisolated struct VerifyResponse: Decodable, Sendable {
 
 enum AuthService {
     static func signUp(user: User) async throws -> User {
-        let response = try await AF.shared
+        let request = AF.shared
             .request("\(AF.baseURL)/auth/signUp", method: .post, parameters: user, encoder: JSONParameterEncoder.default)
             .validate()
-            .serializingDecodable(User.self, decoder: JSONDecoder.nukoDecoder)
-            .value
-        print(response)
-        return response
+        
+        return try await decode(User.self, from: request)
     }
     
     static func logIn(user: User) async throws -> String {
-        try await AF.shared
+        let request = AF.shared
             .request("\(AF.baseURL)/auth/logIn", method: .post, parameters: user, encoder: JSONParameterEncoder.default)
             .validate()
-            .serializingDecodable(AuthTokenResponse.self, decoder: JSONDecoder.nukoDecoder)
-            .value
-            .authToken
+        
+        return try await decode(AuthTokenResponse.self, from: request).authToken
     }
     
     static func forgotPassword(email: String) async throws -> Void {
-        _ = try await AF.shared
+        let request = AF.shared
             .request("\(AF.baseURL)/auth/forgotPassword", method: .post, parameters: ForgotPasswordBody(email: email), encoder: JSONParameterEncoder.default)
             .validate()
-            .serializingDecodable(MessageResponse.self, emptyResponseCodes: [200, 204])
-            .value
+        
+        _ = try await decode(MessageResponse.self, from: request)
     }
     
     static func resetPassword(token: String, newPassword: String, confirmNewPassword: String) async throws -> User {
-        try await AF.shared
+        let request = AF.shared
             .request("\(AF.baseURL)/auth/resetPassword", method: .post, parameters: ResetPasswordBody(token: token, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
             .validate()
-            .serializingDecodable(User.self, emptyResponseCodes: [200, 204])
-            .value
+        
+        return try await decode(User.self, from: request)
     }
     
     static func changePassword(password: String, newPassword: String, confirmNewPassword: String) async throws -> String {
-        try await AF.shared
+        let request = AF.shared
             .request("\(AF.baseURL)/auth/changePassword", method: .post, parameters: ChangePasswordBody(password: password, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
             .validate()
-            .serializingDecodable(AuthTokenResponse.self, emptyResponseCodes: [200, 204])
-            .value
-            .authToken
+        
+        return try await decode(String.self, from: request)
     }
     
     static func verify() async throws -> User {
-        try await AF.shared
+        let request = AF.shared
             .request("\(AF.baseURL)/auth/verify")
             .validate()
-            .serializingDecodable(VerifyResponse.self, decoder: JSONDecoder.nukoDecoder)
-            .value
-            .authUser
+        return try await decode(User.self, from: request)
     }
 }

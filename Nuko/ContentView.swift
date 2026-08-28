@@ -13,6 +13,8 @@ struct ContentView: View {
     var body: some View {
         if authEnvironment.isLoading {
             ProgressView()
+                .tint(.accent)
+                .scaleEffect(2)
         }
         else {
             if authEnvironment.user != nil {
@@ -22,6 +24,12 @@ struct ContentView: View {
                 AuthView()
             }
         }
+    }
+}
+
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
