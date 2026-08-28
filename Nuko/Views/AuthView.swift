@@ -46,6 +46,7 @@ struct AuthView: View {
             Spacer()
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .scrollDismissesKeyboard(.interactively)
         .onTapGesture {
             hideKeyboard()
         }

@@ -67,6 +67,11 @@ struct AppView: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        .overlay(alignment: .bottomTrailing) {
+            CoreMenuButton()
+                .padding(.trailing, 16)
+                .padding(.bottom, 90)
+        }
     }
 }
 

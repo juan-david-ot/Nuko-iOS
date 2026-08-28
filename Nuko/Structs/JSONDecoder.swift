@@ -8,7 +8,7 @@
 import Foundation
 
 extension JSONDecoder {
-    static let nukoDecoder: JSONDecoder = {
+    nonisolated static let nukoDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return decoder
