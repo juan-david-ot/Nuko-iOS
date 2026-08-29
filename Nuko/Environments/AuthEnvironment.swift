@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+@MainActor
 final class AuthEnvironment: ObservableObject {
     @Published var token: String? = nil
     

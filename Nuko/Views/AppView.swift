@@ -10,7 +10,7 @@ import SwiftUI
 struct AppView: View {
     var body: some View {
         TabView {
-            Tab("Home", systemImage: "house.fill") {
+            Tab("", systemImage: "house.fill") {
                 NavigationStack {
                     VStack {
                         Image(systemName: "house.fill")
@@ -21,7 +21,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab("Calendario", systemImage: "calendar") {
+            Tab("", systemImage: "calendar") {
                 NavigationStack {
                     VStack {
                         Image(systemName: "calendar")
@@ -32,7 +32,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab("Finanzas", systemImage: "dollarsign") {
+            Tab("", systemImage: "dollarsign") {
                 NavigationStack {
                     VStack {
                         Image(systemName: "dollarsign")
@@ -43,7 +43,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab ("Tareas", systemImage: "checklist.unchecked") {
+            Tab ("", systemImage: "checklist.unchecked") {
                 NavigationStack {
                     VStack {
                         Image(systemName: "checklist.unchecked")
@@ -54,7 +54,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab("Ajustes", systemImage: "gearshape.fill") {
+            Tab("", systemImage: "gearshape.fill") {
                 NavigationStack {
                     VStack {
                         Image(systemName: "gearshape.fill")
@@ -77,4 +77,6 @@ struct AppView: View {
 
 #Preview {
     AppView()
+        .environmentObject(AuthEnvironment())
+        .environmentObject(CoresEnvironment())
 }

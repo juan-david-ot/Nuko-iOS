@@ -8,41 +8,75 @@
 import SwiftUI
 
 struct CoreMenuButton: View {
-    // Placeholder — cuando montemos el CoreEnvironment, esto vendrá de ahí
-    let cores: [String] = []
-    @State private var selectedCore: String? = nil
-
+    @EnvironmentObject private var coresEnvironment: CoresEnvironment
+    @State private var isOpen = false
+    @State private var isModalOpen: Bool = false
+    
     var body: some View {
-        Menu {
-            if cores.isEmpty {
-                Text("Aún no tienes ningún núcleo...")
-            } else {
-                Picker("Escoge un Núcleo", selection: $selectedCore) {
-                    ForEach(cores, id: \.self) { core in
-                        Text(core).tag(Optional(core))
-                    }
-                }
-            }
-            Divider()
-            Button {
-                // abrir modal de creación de núcleo
-            } label: {
-                Label("Crear núcleo", systemImage: "plus.circle")
-            }
-        } label: {
+        Button {
+            isOpen.toggle()
+        }
+        label: {
             Image(systemName: "atom")
                 .font(.system(size: 22, weight: .regular))
                 .foregroundStyle(.foreground)
                 .frame(width: 52, height: 52)
-                .background(.thinMaterial, in: Circle())
-                .overlay(
-                    Circle().stroke(.white.opacity(0.15), lineWidth: 1)
-                )
+//                .background(.thinMaterial, in: Circle())
+//                .overlay(
+//                    Circle().stroke(.white.opacity(0.15), lineWidth: 1)
+//                )
         }
-        .menuStyle(.borderlessButton)
+        .buttonStyle(.plain)
+        .glassEffect(.regular, in: .circle)
+        .popover(isPresented: $isOpen, arrowEdge: .bottom) {
+            CoreMenuPopover(isOpen: $isOpen, isModalOpen: $isModalOpen)
+                .presentationCompactAdaptation(.popover)
+                .presentationBackground(.clear)
+        }
+        .task {
+            await coresEnvironment.refreshCores()
+        }
+        .sheet(isPresented: $isModalOpen) {
+            Text("Modal de crear núcleo")
+                .presentationDetents([.medium])
+        }
+//        Menu {
+//            if coresEnvironment.cores.isEmpty {
+//                Text("Aún no tienes ningún núcleo...")
+//            } else {
+//                Picker("Escoge un Núcleo", selection: $coresEnvironment.core) {
+//                    ForEach(coresEnvironment.cores) { core in
+//                        Text(core.name ?? "Núcleo").tag(Optional(core.id))
+//                    }
+//                }
+//            }
+//            Divider()
+//            Button {
+//                isModalOpen = true
+//            } label: {
+//                Label("Crear núcleo", systemImage: "plus.circle")
+//            }
+//        } label: {
+//            Image(systemName: "atom")
+//                .font(.system(size: 22, weight: .regular))
+//                .foregroundStyle(.foreground)
+//                .frame(width: 52, height: 52)
+//                .background(.thinMaterial, in: Circle())
+//                .overlay(
+//                    Circle().stroke(.white.opacity(0.15), lineWidth: 1)
+//                )
+//        }
+//        .menuStyle(.borderlessButton)
+//        .task {
+//            await coresEnvironment.refreshCores()
+//        }
+//        .sheet(isPresented: $isModalOpen) {
+//            Text("Modal de crear núcleo")
+//                .presentationDetents([.medium])
+//        }
     }
 }
 
 #Preview {
-    CoreMenuButton()
+    CoreMenuButton().environmentObject(CoresEnvironment())
 }

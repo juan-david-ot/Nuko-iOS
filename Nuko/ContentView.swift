@@ -34,5 +34,7 @@ extension View {
 }
 
 #Preview {
-    ContentView().environmentObject(AuthEnvironment())
+    ContentView()
+        .environmentObject(AuthEnvironment())
+        .environmentObject(CoresEnvironment())
 }
