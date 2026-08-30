@@ -21,9 +21,11 @@ final class AuthInterceptor: RequestInterceptor {
     ) {
         var request = urlRequest
 
-        if let authToken = UserDefaults.standard.string(forKey: "authToken") {
+        if let authToken = KeychainStorage.getToken() {
             request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
         }
+        
+        request.setValue("ios", forHTTPHeaderField: "X-Client-Platform")
 
         completion(.success(request))
     }

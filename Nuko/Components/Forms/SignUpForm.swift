@@ -1,5 +1,5 @@
 //
-//  LogInFormView.swift
+//  SignUpForm.swift
 //  Nuko
 //
 //  Created by JuanDa on 27/08/2026.
@@ -8,44 +8,44 @@
 import SwiftUI
 
 private enum FocusedField: Hashable {
-    case identifier, password
+    case email, username, name, surname, password
 }
 
-struct LogInFormView: View {
-    @EnvironmentObject private var authEnvironment: AuthEnvironment
+struct SignUpForm: View {
+    @Binding var selectedTab: Int
     
-    @State private var identifier = ""
+    @State private var email = ""
+    @State private var username = ""
+    @State private var name = ""
+    @State private var surname = ""
     @State private var password = ""
     @State private var isPasswordVisible = false
     @State private var isLoading = false
-
+    
     @FocusState private var focus: FocusedField?
     
-    @State private var identifierError: String?
+    @State private var emailError: String?
+    @State private var usernameError: String?
     @State private var passwordError: String?
     @State private var errorMessage: String?
     
     private func validate() -> Bool {
-        identifierError = identifier.isEmpty ? "Este campo es obligatorio" : nil
+        emailError = email.isEmpty ? "Este campo es obligatorio" : nil
+        usernameError = username.isEmpty ? "Este campo es obligatorio" : nil
         passwordError = password.isEmpty ? "Este campo es obligatorio" : nil
-        return identifierError == nil && passwordError == nil
+        return emailError == nil && usernameError == nil && passwordError == nil
     }
     
-    func logIn() async {
+    func signUp() async {
         guard validate() else { return }
         
         isLoading = true
         defer { isLoading = false }
         
-        var isEmail: Bool {
-            let pattern = #"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$"#
-            return identifier.range(of: pattern, options: [.regularExpression, .caseInsensitive]) != nil
-        }
         do {
-            let token = try await AuthService.logIn(user: isEmail ? User(email: identifier, password: password) : User(username: identifier, password: password))
-            UserDefaults.standard.set(token, forKey: "authToken")
-            await authEnvironment.authUser()
+            _ = try await AuthService.signUp(user: User(email: email, username: username, password: password, name: name, surname: surname))
             errorMessage = nil
+            selectedTab = 0
         }
         catch {
             errorMessage = error.localizedDescription
@@ -54,24 +54,57 @@ struct LogInFormView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("¡Inicia sesión!")
+            Text("¡Regístrate!")
                 .font(.title2.bold())
-            Text("Ha-Nuko Matata.")
+            Text("Ha-Nuko Matata. Convive y deja vivir.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-            
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
-                    RequiredLabel(text: "Email/Nombre de usuario")
-                    TextField("Introduce tu email o nombre de usuario", text: $identifier)
+                    RequiredLabel(text: "Email")
+                    TextField("Introduce tu email", text: $email)
                         .textFieldStyle(.plain)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                        .focused($focus, equals: .identifier)
+                        .keyboardType(.emailAddress)
+                        .focused($focus, equals: .email)
                         .submitLabel(.go)
-                        .fieldContainerStyle(hasError: identifierError != nil)
-                        .onChange(of: identifier) { _, _ in identifierError = nil }
-                    FieldErrorText(text: identifierError)
+                        .fieldContainerStyle(hasError: emailError != nil)
+                        .onChange(of: email) { _, _ in emailError = nil }
+                    FieldErrorText(text: emailError)
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    RequiredLabel(text: "Nombre de usuario")
+                    TextField("Introduce tu nombre de usuario", text: $username)
+                        .textFieldStyle(.plain)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .focused($focus, equals: .username)
+                        .submitLabel(.go)
+                        .fieldContainerStyle(hasError: usernameError != nil)
+                        .onChange(of: username) { _, _ in usernameError = nil }
+                    FieldErrorText(text: usernameError)
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Nombre")
+                        .font(.footnote.bold())
+                    TextField("Introduce tu nombre", text: $name)
+                        .textFieldStyle(.plain)
+                        .autocorrectionDisabled()
+                        .focused($focus, equals: .name)
+                        .submitLabel(.go)
+                        .fieldContainerStyle()
+                }
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Apellido")
+                        .font(.footnote.bold())
+                    TextField("Introduce tu apellido", text: $surname)
+                        .textFieldStyle(.plain)
+                        .autocorrectionDisabled()
+                        .focused($focus, equals: .surname)
+                        .submitLabel(.go)
+                        .fieldContainerStyle()
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
@@ -104,16 +137,8 @@ struct LogInFormView: View {
                     .frame(height: 20)
                     .fieldContainerStyle(hasError: passwordError != nil)
                     .onChange(of: password) { _, _ in passwordError = nil }
-                    FieldErrorText(text: passwordError)
                     
-                    HStack {
-                        Spacer()
-                        NavigationLink("¿Has olvidado tu contraseña?") {
-                            Text("Recuperar contraseña")
-                        }
-                        .font(.caption.bold())
-                        .foregroundStyle(.secondary)
-                    }
+                    FieldErrorText(text: passwordError)
                 }
                 
                 if let errorMessage {
@@ -125,11 +150,17 @@ struct LogInFormView: View {
             .padding(.top, 12)
             .onSubmit {
                 switch focus {
-                case .identifier:
+                case .email:
+                    focus = .username
+                case .username:
+                    focus = .name
+                case .name:
+                    focus = .surname
+                case .surname:
                     focus = .password
                 case .password:
                     focus = nil
-                    Task { await logIn() }
+                    Task { await signUp() }
                 default:
                     print("None")
                 }
@@ -137,13 +168,14 @@ struct LogInFormView: View {
             
             HStack {
                 Button {
-                    Task { await logIn() }
+                    Task { await signUp() }
                 } label: {
                     if isLoading {
                         ProgressView()
                             .tint(.accent)
                     } else {
-                        Label("Iniciar Sesión", systemImage: "checkmark").foregroundStyle(.black)
+                        Label("Registrarse", systemImage: "checkmark")
+                            .foregroundStyle(.black)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -156,5 +188,5 @@ struct LogInFormView: View {
 }
 
 #Preview {
-    LogInFormView()
+    SignUpForm(selectedTab: .constant(1))
 }

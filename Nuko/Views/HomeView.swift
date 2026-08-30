@@ -79,7 +79,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $isInviteModalOpen) {
                 InviteLinkSheet(inviteLink: inviteLink, error: inviteError)
-                    .presentationDetents([.height(220)])
+                    .presentationDetents([.fraction(0.25)])
             }
         }
     }

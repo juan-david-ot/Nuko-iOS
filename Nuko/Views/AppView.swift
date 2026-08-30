@@ -17,10 +17,10 @@ struct AppView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("", systemImage: "house.fill", value: AppTab.home) {
+            Tab("Home", systemImage: "house.fill", value: AppTab.home) {
                 HomeView()
             }
-            Tab("", systemImage: "calendar", value: AppTab.calendar) {
+            Tab("Calendario", systemImage: "calendar", value: AppTab.calendar) {
                 NavigationStack {
                     VStack {
                         Image(systemName: "calendar")
@@ -31,7 +31,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab("", systemImage: "dollarsign", value: AppTab.finances) {
+            Tab("Finanzas", systemImage: "dollarsign", value: AppTab.finances) {
                 NavigationStack {
                     VStack {
                         Image(systemName: "dollarsign")
@@ -42,7 +42,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab ("", systemImage: "checklist.unchecked", value: AppTab.tasks) {
+            Tab ("Tareas", systemImage: "checklist.unchecked", value: AppTab.tasks) {
                 NavigationStack {
                     VStack {
                         Image(systemName: "checklist.unchecked")
@@ -53,7 +53,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab("", systemImage: "gearshape.fill", value: AppTab.settings) {
+            Tab("Ajustes", systemImage: "gearshape.fill", value: AppTab.settings) {
                 SettingsView()
             }
         }

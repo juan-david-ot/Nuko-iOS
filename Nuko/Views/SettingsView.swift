@@ -70,7 +70,7 @@ struct SettingsView: View {
                 confirmNewPassword: confirmNewPassword
             )
             print(token)
-            UserDefaults.standard.set(token, forKey: "authToken")
+            KeychainStorage.saveToken(token)
             expandedSection = nil
             password = ""
             newPassword = ""

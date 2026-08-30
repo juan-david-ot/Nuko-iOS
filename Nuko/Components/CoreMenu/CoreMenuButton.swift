@@ -21,13 +21,15 @@ struct CoreMenuButton: View {
                 .font(.system(size: 22, weight: .regular))
                 .foregroundStyle(.foreground)
                 .frame(width: 52, height: 52)
+                .contentShape(Circle())
 //                .background(.thinMaterial, in: Circle())
 //                .overlay(
 //                    Circle().stroke(.white.opacity(0.15), lineWidth: 1)
 //                )
         }
+        .frame(width: 52, height: 52)
         .buttonStyle(.plain)
-        .glassEffect(.regular, in: .circle)
+        .glassEffect(.clear.interactive(), in: .circle)
         .popover(isPresented: $isOpen, arrowEdge: .bottom) {
             CoreMenuPopover(isOpen: $isOpen, isModalOpen: $isModalOpen)
                 .presentationCompactAdaptation(.popover)
@@ -37,8 +39,8 @@ struct CoreMenuButton: View {
             await coresEnvironment.refreshCores()
         }
         .sheet(isPresented: $isModalOpen) {
-            Text("Modal de crear núcleo")
-                .presentationDetents([.medium])
+            CreateCoreSheet()
+                .presentationDetents([.fraction(0.5)])
         }
 //        Menu {
 //            if coresEnvironment.cores.isEmpty {

@@ -14,7 +14,7 @@ struct InviteLinkSheet: View {
     @State private var didCopy = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .center, spacing: 12) {
             Text("¡Comparte la invitación!")
                 .font(.title3.bold())
             

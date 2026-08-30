@@ -10,14 +10,11 @@ import Combine
 
 @MainActor
 final class AuthEnvironment: ObservableObject {
-    @Published var token: String? = nil
-    
-    // migrated
     @Published private(set) var user: User? = nil
     @Published private(set) var isLoading: Bool = true
     
     func authUser() async {
-        let token = UserDefaults.standard.string(forKey: "authToken")
+        let token = KeychainStorage.getToken()
 
         if token != nil {
             do {
@@ -35,7 +32,7 @@ final class AuthEnvironment: ObservableObject {
     }
 
     func logOut() async {
-        UserDefaults.standard.removeObject(forKey: "authToken")
+        KeychainStorage.deleteToken()
         user = nil
         isLoading = false
     }
