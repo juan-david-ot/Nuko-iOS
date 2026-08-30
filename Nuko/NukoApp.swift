@@ -11,13 +11,14 @@ import SwiftUI
 struct NukoApp: App {
     @StateObject private var authEnvironment = AuthEnvironment()
     @StateObject private var coresEnvironment = CoresEnvironment()
+    @AppStorage("appTheme") private var appTheme: AppTheme = .system
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .preferredColorScheme(.dark)
                 .environmentObject(authEnvironment)
                 .environmentObject(coresEnvironment)
+                .preferredColorScheme(appTheme.colorScheme)
                 .task {
                     await authEnvironment.authUser()
                 }

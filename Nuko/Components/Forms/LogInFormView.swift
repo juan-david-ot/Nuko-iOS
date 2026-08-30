@@ -82,7 +82,7 @@ struct LogInFormView: View {
                             if isPasswordVisible {
                                 TextField("Introduce tu contraseña", text: $password)
                                     .focused($focus, equals: .password)
-                                    .submitLabel(.go)
+                                    .submitLabel(.done)
                             } else {
                                 SecureField("Introduce tu contraseña", text: $password)
                                     .focused($focus, equals: .password)

@@ -42,7 +42,7 @@ struct AuthView: View {
                 .background(.cards, in: RoundedRectangle(cornerRadius: 30))
                 .padding(.horizontal, 20)
             }
-            .padding(.bottom, 300)
+            .padding(.bottom, 270)
             Spacer()
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)

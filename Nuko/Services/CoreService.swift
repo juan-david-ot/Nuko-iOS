@@ -46,7 +46,7 @@ enum CoreService {
     
     static func getUserCoreInformationById(coreId: String) async throws -> Core {
         let request = AF.shared
-            .request("\(AF.baseURL)/cores/\(coreId)/info", method: .get)
+            .request("\(AF.baseURL)/cores/\(coreId)/information", method: .get)
             .validate()
         
         return try await decode(Core.self, from: request)

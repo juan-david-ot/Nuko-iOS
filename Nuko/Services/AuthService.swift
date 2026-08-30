@@ -70,13 +70,14 @@ enum AuthService {
             .request("\(AF.baseURL)/auth/changePassword", method: .post, parameters: ChangePasswordBody(password: password, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
             .validate()
         
-        return try await decode(String.self, from: request)
+        return try await decode(AuthTokenResponse.self, from: request).authToken
     }
     
     static func verify() async throws -> User {
         let request = AF.shared
-            .request("\(AF.baseURL)/auth/verify")
+            .request("\(AF.baseURL)/auth/verify", method: .get)
             .validate()
-        return try await decode(User.self, from: request)
+        
+        return try await decode(VerifyResponse.self, from: request).authUser
     }
 }

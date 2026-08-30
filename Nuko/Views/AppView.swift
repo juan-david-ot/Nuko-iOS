@@ -7,21 +7,20 @@
 
 import SwiftUI
 
+private enum AppTab: Hashable {
+    case home, calendar, finances, tasks, settings
+}
+
 struct AppView: View {
+    @EnvironmentObject private var authEnvironment: AuthEnvironment
+    @State private var selectedTab: AppTab = .home
+    
     var body: some View {
-        TabView {
-            Tab("", systemImage: "house.fill") {
-                NavigationStack {
-                    VStack {
-                        Image(systemName: "house.fill")
-                            .imageScale(.large)
-                            .foregroundStyle(.tint)
-                        Text("Hello, Home!")
-                    }
-                    .padding()
-                }
+        TabView(selection: $selectedTab) {
+            Tab("", systemImage: "house.fill", value: AppTab.home) {
+                HomeView()
             }
-            Tab("", systemImage: "calendar") {
+            Tab("", systemImage: "calendar", value: AppTab.calendar) {
                 NavigationStack {
                     VStack {
                         Image(systemName: "calendar")
@@ -32,7 +31,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab("", systemImage: "dollarsign") {
+            Tab("", systemImage: "dollarsign", value: AppTab.finances) {
                 NavigationStack {
                     VStack {
                         Image(systemName: "dollarsign")
@@ -43,7 +42,7 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab ("", systemImage: "checklist.unchecked") {
+            Tab ("", systemImage: "checklist.unchecked", value: AppTab.tasks) {
                 NavigationStack {
                     VStack {
                         Image(systemName: "checklist.unchecked")
@@ -54,23 +53,21 @@ struct AppView: View {
                     .padding()
                 }
             }
-            Tab("", systemImage: "gearshape.fill") {
-                NavigationStack {
-                    VStack {
-                        Image(systemName: "gearshape.fill")
-                            .imageScale(.large)
-                            .foregroundStyle(.tint)
-                        Text("Hello, Gearshape!")
-                    }
-                    .padding()
-                }
+            Tab("", systemImage: "gearshape.fill", value: AppTab.settings) {
+                SettingsView()
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        .toolbarBackground(.hidden, for: .tabBar)
         .overlay(alignment: .bottomTrailing) {
             CoreMenuButton()
                 .padding(.trailing, 16)
-                .padding(.bottom, 90)
+                .padding(.bottom, 70)
+        }
+        .onChange(of: selectedTab) { _, _ in
+            Task {
+                await authEnvironment.authUser()
+            }
         }
     }
 }
