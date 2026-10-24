@@ -9,6 +9,7 @@ Nuko is a multi-platform application. This repository contains Nuko-iOS, the nat
 **iOS:**
 - Swift
 - SwiftUI
+- AlamoFire
 
 ---
 
