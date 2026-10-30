@@ -27,6 +27,11 @@ nonisolated struct AcceptInvitationResponse: Decodable, Sendable {
     let newCoreUser: CoreUser
 }
 
+nonisolated struct LeaveCoreResponse: Decodable, Sendable {
+    let message: String
+    let coreId: String
+}
+
 enum CoreService {
     static func getUserCores() async throws -> [Core] {
         let request = AF.shared
@@ -81,5 +86,12 @@ enum CoreService {
             .request("\(AF.baseURL)/cores/invitation/\(token)", method: .post)
             .validate()
         return try await decode(AcceptInvitationResponse.self, from: request)
+    }
+    
+    static func leaveCore(coreId: String) async throws -> LeaveCoreResponse {
+        let request = AF.shared
+            .request("\(AF.baseURL)/cores/\(coreId)/leave", method: .delete)
+            .validate()
+        return try await decode(LeaveCoreResponse.self, from: request)
     }
 }
