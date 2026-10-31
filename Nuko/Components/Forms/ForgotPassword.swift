@@ -75,7 +75,7 @@ struct ForgotPassword: View {
                 .padding(.top, 16)
             }
             .padding(20)
-            .background(.cards, in: RoundedRectangle(cornerRadius: 30))
+            .background(.surface, in: RoundedRectangle(cornerRadius: 30))
             .padding(.horizontal, 20)
         }
         .navigationTitle("")

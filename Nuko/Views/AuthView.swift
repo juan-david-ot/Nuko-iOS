@@ -40,7 +40,7 @@ struct AuthView: View {
                     }
                     .animation(.easeInOut(duration: 0.25), value: selectedTab)
                     .padding(20)
-                    .background(.cards, in: RoundedRectangle(cornerRadius: 30))
+                    .background(.surface, in: RoundedRectangle(cornerRadius: 30))
                     .padding(.horizontal, 20)
                 }
                 .padding(.bottom, 270)

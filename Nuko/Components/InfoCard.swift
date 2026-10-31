@@ -23,7 +23,7 @@ struct InfoCard<Content: View>: View {
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 24))
+        .background(.surface, in: RoundedRectangle(cornerRadius: 24))
     }
 }
 

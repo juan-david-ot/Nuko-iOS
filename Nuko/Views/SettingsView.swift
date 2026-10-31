@@ -288,7 +288,7 @@ struct SettingsView: View {
                     }
                     .padding()
                 }
-                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 24))
+                .background(.surface, in: RoundedRectangle(cornerRadius: 24))
                 .padding()
             }
             .navigationTitle("Ajustes")
