@@ -88,9 +88,9 @@ struct HomeView: View {
     private var resumeTab: some View {
         if isLoading {
             VStack(spacing: 12) {
-                RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 112)
-                RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 112)
-                RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 112)
+                RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 138)
+                RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 119)
+                RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 119)
             }
         } else if core != nil {
             VStack(spacing: 12) {
@@ -106,6 +106,7 @@ struct HomeView: View {
                     Text("Llamar al banco").foregroundStyle(.secondary)
                     Text("Ordenar el trastero").foregroundStyle(.secondary)
                 }
+                
                 InfoCard(icon: "dollarsign", title: "Últimos Gastos") {
                     Text("Netflix: 12€")
                     Text("Helado: 10€").foregroundStyle(.secondary)
@@ -123,68 +124,99 @@ struct HomeView: View {
     @ViewBuilder
     private var coreTab: some View {
         if isLoading {
-            VStack(spacing: 12) {
-                RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 80)
-                RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 200)
+            VStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 12) {
+                    RoundedRectangle(cornerRadius: 50).fill(.thinMaterial).frame(width: 140, height: 18)
+                    RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 75)
+                    RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 275)
+                    RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 90)
+                }
+                VStack(spacing: 12) {
+                    RoundedRectangle(cornerRadius: 50).fill(.thinMaterial).frame(width: 78, height: 18)
+                    RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 119)
+                    RoundedRectangle(cornerRadius: 24).fill(.thinMaterial).frame(height: 77)
+                }
             }
         } else if let core {
             VStack(spacing: 20) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Núcleo").font(.subheadline.bold())
-                    HStack {
-                        Text("Nombre:")
-                        Text(core.name ?? "Nucleo").foregroundStyle(.secondary)
-                    }
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 24))
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Miembros").font(.subheadline.bold())
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Ajustes del Núcleo").font(.subheadline.bold())
                     
-                    ScrollView {
-                        VStack(spacing: 0) {
-                            ForEach(core.users ?? [], id: \.id) { member in
-                                HStack(spacing: 10) {
-                                    AsyncImage(url: URL(string: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg")) { phase in
-                                        if case .success(let image) = phase {
-                                            image.resizable().scaledToFill()
-                                        } else {
-                                            Circle().fill(.thinMaterial)
-                                                .overlay(Text(getCapitals(member.name ?? "?")).font(.caption.bold()))
-                                        }
-                                    }
-                                    .frame(width: 36, height: 36)
-                                    .clipShape(Circle())
-                                    
-                                    VStack(alignment: .leading, spacing: 1) {
-                                        Text("@\(member.username?.capitalized ?? "") - \(member.name ?? "")")
-                                            .font(.subheadline)
-                                        Text(member.email ?? "")
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                    Spacer()
-                                }
-                                .padding(.vertical, 6)
-                            }
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Núcleo").font(.subheadline.bold())
+                        HStack {
+                            Text("Nombre:")
+                            Text(core.name ?? "Nucleo").foregroundStyle(.secondary)
                         }
                     }
-                    .frame(maxHeight: 208)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.surface, in: RoundedRectangle(cornerRadius: 24))
                     
-                    Button {
-                        isInviteModalOpen = true
-                        Task { await createInvitation() }
-                    } label: {
-                        Label("Invitar Miembro", systemImage: "plus")
-                            .foregroundStyle(.black)
-                            .frame(maxWidth: .infinity)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Miembros").font(.subheadline.bold())
+                        
+                        ScrollView {
+                            VStack(spacing: 0) {
+                                ForEach(core.users ?? [], id: \.id) { member in
+                                    HStack(spacing: 10) {
+                                        AsyncImage(url: URL(string: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg")) { phase in
+                                            if case .success(let image) = phase {
+                                                image.resizable().scaledToFill()
+                                            } else {
+                                                Circle().fill(.thinMaterial)
+                                                    .overlay(Text(getCapitals(member.name ?? "?")).font(.caption.bold()))
+                                            }
+                                        }
+                                        .frame(width: 36, height: 36)
+                                        .clipShape(Circle())
+                                        
+                                        VStack(alignment: .leading, spacing: 1) {
+                                            Text("@\(member.username?.capitalized ?? "") - \(member.name ?? "")")
+                                                .font(.subheadline)
+                                            Text(member.email ?? "")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                        Spacer()
+                                    }
+                                    .padding(.vertical, 6)
+                                }
+                            }
+                        }
+                        .frame(maxHeight: 175)
+                        
+                        Button {
+                            isInviteModalOpen = true
+                            Task { await createInvitation() }
+                        } label: {
+                            Label("Invitar Miembro", systemImage: "plus")
+                                .foregroundStyle(.black)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
-                    .buttonStyle(.borderedProminent)
+                    .padding()
+                    .background(.surface, in: RoundedRectangle(cornerRadius: 24))
+                    
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Peligro").font(.subheadline.bold()).foregroundStyle(.danger)
+                        Button {
+                            
+                        } label: {
+                            Label("Abandonar Núcleo", systemImage: "rectangle.portrait.and.arrow.right")
+                                .foregroundStyle(.danger)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 7)
+                                .background(.dangerSoft, in: RoundedRectangle(cornerRadius: 24))
+                                .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(.danger, lineWidth: 1))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.dangerSoft, in: RoundedRectangle(cornerRadius: 24))
                 }
-                .padding()
-                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 24))
                 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Psicología").font(.subheadline.bold())
@@ -213,7 +245,7 @@ struct HomeView: View {
                         }
                     }
                     .padding()
-                    .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 24))
+                    .background(.surface, in: RoundedRectangle(cornerRadius: 24))
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Reflexión del día")
@@ -221,7 +253,7 @@ struct HomeView: View {
                     }
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 24))
+                    .background(.surface, in: RoundedRectangle(cornerRadius: 24))
                 }
             }
         } else {
