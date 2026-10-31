@@ -33,6 +33,18 @@ extension View {
     }
 }
 
+extension View {
+    func printSize(_ label: String = "") -> some View {
+        background(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear { print("\(label): \(geo.size)") }
+                    .onChange(of: geo.size) { _, new in print("\(label): \(new)") }
+            }
+        )
+    }
+}
+
 #Preview {
     ContentView()
         .environmentObject(AuthEnvironment())
