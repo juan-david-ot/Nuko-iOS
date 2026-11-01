@@ -26,7 +26,7 @@ struct ForgotPassword: View {
         defer { isLoading = false }
         
         do {
-            try await AuthService.forgotPassword(email: email)
+            try await AuthService.forgotPassword(email)
         } catch {
             print(error)
         }

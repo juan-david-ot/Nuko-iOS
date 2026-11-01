@@ -64,11 +64,7 @@ struct SettingsView: View {
         defer { isLoading = false }
         
         do {
-            let token = try await AuthService.changePassword(
-                password: password,
-                newPassword: newPassword,
-                confirmNewPassword: confirmNewPassword
-            )
+            let token = try await AuthService.changePassword(password, newPassword, confirmNewPassword)
             print(token)
             KeychainStorage.saveToken(token)
             expandedSection = nil
@@ -115,8 +111,8 @@ struct SettingsView: View {
                             }
                         }
                     }
-                    .padding()
                     .foregroundStyle(Color(.label))
+                    .padding()
                     
                     Divider()
                     

@@ -43,7 +43,7 @@ struct SignUpForm: View {
         defer { isLoading = false }
         
         do {
-            _ = try await AuthService.signUp(user: User(email: email, username: username, password: password, name: name, surname: surname))
+            _ = try await AuthService.signUp(User(email: email, username: username, password: password, name: name, surname: surname))
             errorMessage = nil
             selectedTab = 0
         }

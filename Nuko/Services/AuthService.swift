@@ -33,7 +33,7 @@ private nonisolated struct VerifyResponse: Decodable, Sendable {
 }
 
 enum AuthService {
-    static func signUp(user: User) async throws -> User {
+    static func signUp(_ user: User) async throws -> User {
         let request = AF.shared
             .request("\(AF.baseURL)/auth/signUp", method: .post, parameters: user, encoder: JSONParameterEncoder.default)
             .validate()
@@ -41,7 +41,7 @@ enum AuthService {
         return try await decode(User.self, from: request)
     }
     
-    static func logIn(user: User) async throws -> String {
+    static func logIn(_ user: User) async throws -> String {
         let request = AF.shared
             .request("\(AF.baseURL)/auth/logIn", method: .post, parameters: user, encoder: JSONParameterEncoder.default)
             .validate()
@@ -49,7 +49,7 @@ enum AuthService {
         return try await decode(AuthTokenResponse.self, from: request).authToken
     }
     
-    static func forgotPassword(email: String) async throws -> Void {
+    static func forgotPassword(_ email: String) async throws -> Void {
         let request = AF.shared
             .request("\(AF.baseURL)/auth/forgotPassword", method: .post, parameters: ForgotPasswordBody(email: email), encoder: JSONParameterEncoder.default)
             .validate()
@@ -57,7 +57,7 @@ enum AuthService {
         _ = try await decode(MessageResponse.self, from: request)
     }
     
-    static func resetPassword(token: String, newPassword: String, confirmNewPassword: String) async throws -> User {
+    static func resetPassword(_ token: String, _ newPassword: String, _ confirmNewPassword: String) async throws -> User {
         let request = AF.shared
             .request("\(AF.baseURL)/auth/resetPassword", method: .post, parameters: ResetPasswordBody(token: token, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
             .validate()
@@ -65,7 +65,7 @@ enum AuthService {
         return try await decode(User.self, from: request)
     }
     
-    static func changePassword(password: String, newPassword: String, confirmNewPassword: String) async throws -> String {
+    static func changePassword(_ password: String, _ newPassword: String, _ confirmNewPassword: String) async throws -> String {
         let request = AF.shared
             .request("\(AF.baseURL)/auth/changePassword", method: .post, parameters: ChangePasswordBody(password: password, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
             .validate()

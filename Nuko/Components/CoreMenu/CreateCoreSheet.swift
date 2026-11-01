@@ -28,7 +28,7 @@ struct CreateCoreSheet: View {
         defer { isLoading = false }
         
         do {
-            let response = try await CoreService.createCore(core: Core(name: name))
+            let response = try await CoreService.createCore(Core(name: name))
             await coresEnvironment.refreshCores()
             coresEnvironment.core = response.newCore.id
             errorMessage = nil

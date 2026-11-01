@@ -42,7 +42,7 @@ struct LogInForm: View {
             return identifier.range(of: pattern, options: [.regularExpression, .caseInsensitive]) != nil
         }
         do {
-            let token = try await AuthService.logIn(user: isEmail ? User(email: identifier, password: password) : User(username: identifier, password: password))
+            let token = try await AuthService.logIn(isEmail ? User(email: identifier, password: password) : User(username: identifier, password: password))
             KeychainStorage.saveToken(token)
             await authEnvironment.authUser()
             errorMessage = nil

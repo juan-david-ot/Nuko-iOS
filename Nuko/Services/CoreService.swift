@@ -41,7 +41,7 @@ enum CoreService {
         return try await decode([Core].self, from: request)
     }
     
-    static func getUserCoreById(coreId: String) async throws -> Core {
+    static func getUserCoreById(_ coreId: String) async throws -> Core {
         let request = AF.shared
             .request("\(AF.baseURL)/cores/\(coreId)", method: .get)
             .validate()
@@ -49,7 +49,7 @@ enum CoreService {
         return try await decode(Core.self, from: request)
     }
     
-    static func getUserCoreInformationById(coreId: String) async throws -> Core {
+    static func getUserCoreInformationById(_ coreId: String) async throws -> Core {
         let request = AF.shared
             .request("\(AF.baseURL)/cores/\(coreId)/information", method: .get)
             .validate()
@@ -57,7 +57,7 @@ enum CoreService {
         return try await decode(Core.self, from: request)
     }
     
-    static func createCore(core: Core) async throws -> CreateCoreResponse {
+    static func createCore(_ core: Core) async throws -> CreateCoreResponse {
         let request = AF.shared
             .request("\(AF.baseURL)/cores", method: .post, parameters: core, encoder: JSONParameterEncoder.default)
             .validate()
@@ -65,7 +65,7 @@ enum CoreService {
         return try await decode(CreateCoreResponse.self, from: request)
     }
     
-    static func createInvitationToCore(coreId: String) async throws -> String {
+    static func createInvitationToCore(_ coreId: String) async throws -> String {
         let request = AF.shared
             .request("\(AF.baseURL)/cores/\(coreId)/invitation", method: .post)
             .validate()
@@ -73,7 +73,7 @@ enum CoreService {
         return try await decode(InvitationLinkResponse.self, from: request).inviteLink
     }
     
-    static func decodeInvitationToCore(token: String) async throws -> DecodeInvitationResponse {
+    static func decodeInvitationToCore(_ token: String) async throws -> DecodeInvitationResponse {
         let request = AF.shared
             .request("\(AF.baseURL)/cores/invitation/\(token)", method: .get)
             .validate()
@@ -81,14 +81,14 @@ enum CoreService {
         return try await decode(DecodeInvitationResponse.self, from: request)
     }
     
-    static func acceptInvitationToCore(token: String) async throws -> AcceptInvitationResponse {
+    static func acceptInvitationToCore(_ token: String) async throws -> AcceptInvitationResponse {
         let request = AF.shared
             .request("\(AF.baseURL)/cores/invitation/\(token)", method: .post)
             .validate()
         return try await decode(AcceptInvitationResponse.self, from: request)
     }
     
-    static func leaveCore(coreId: String) async throws -> LeaveCoreResponse {
+    static func leaveCore(_ coreId: String) async throws -> LeaveCoreResponse {
         let request = AF.shared
             .request("\(AF.baseURL)/cores/\(coreId)/leave", method: .delete)
             .validate()

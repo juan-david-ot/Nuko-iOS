@@ -32,7 +32,7 @@ struct HomeView: View {
         defer { isLoading = false }
         
         do {
-            core = try await CoreService.getUserCoreInformationById(coreId: coreId)
+            core = try await CoreService.getUserCoreInformationById(coreId)
         } catch {
             core = nil
             print(error)
@@ -43,7 +43,7 @@ struct HomeView: View {
         guard let coreId = coresEnvironment.core else { return }
         
         do {
-            inviteLink = try await CoreService.createInvitationToCore(coreId: coreId)
+            inviteLink = try await CoreService.createInvitationToCore(coreId)
             inviteError = nil
         } catch {
             inviteError = "No tienes ningún núcleo seleccionado o ha habido un error al crear la invitación"
@@ -228,18 +228,21 @@ struct HomeView: View {
                                 Image(systemName: "checkmark.circle.fill")
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 10)
+                                    .foregroundStyle(.foreground)
                             }
                             .buttonStyle(.bordered)
                             Button {} label: {
                                 Image(systemName: "slash.circle.fill")
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 10)
+                                    .foregroundStyle(.foreground)
                             }
                             .buttonStyle(.bordered)
                             Button {} label: {
                                 Image(systemName: "xmark.circle.fill")
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 10)
+                                    .foregroundStyle(.foreground)
                             }
                             .buttonStyle(.bordered)
                         }
