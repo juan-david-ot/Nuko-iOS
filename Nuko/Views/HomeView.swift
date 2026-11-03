@@ -45,8 +45,23 @@ struct HomeView: View {
         do {
             inviteLink = try await CoreService.createInvitationToCore(coreId)
             inviteError = nil
-        } catch {
+        }
+        catch {
             inviteError = "No tienes ningún núcleo seleccionado o ha habido un error al crear la invitación"
+        }
+    }
+    
+    private func leaveCore() async {
+        guard let coreId = coresEnvironment.core else { return }
+        
+        do {
+            let response = try await CoreService.leaveCore(coreId)
+            print(response)
+            await coresEnvironment.refreshCores()
+            coresEnvironment.core = nil
+        }
+        catch {
+            print(error)
         }
     }
     
@@ -202,7 +217,7 @@ struct HomeView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Peligro").font(.subheadline.bold()).foregroundStyle(.danger)
                         Button {
-                            
+                            Task { await leaveCore() }
                         } label: {
                             Label("Abandonar Núcleo", systemImage: "rectangle.portrait.and.arrow.right")
                                 .foregroundStyle(.danger)
