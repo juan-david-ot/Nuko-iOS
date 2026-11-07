@@ -43,15 +43,7 @@ struct AppView: View {
                 }
             }
             Tab ("Tareas", systemImage: "checklist.unchecked", value: AppTab.tasks) {
-                NavigationStack {
-                    VStack {
-                        Image(systemName: "checklist.unchecked")
-                            .imageScale(.large)
-                            .foregroundStyle(.tint)
-                        Text("Hello, Checklist!")
-                    }
-                    .padding()
-                }
+                TasksView()
             }
             Tab("Ajustes", systemImage: "gearshape.fill", value: AppTab.settings) {
                 SettingsView()
