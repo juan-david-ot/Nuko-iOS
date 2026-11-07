@@ -12,7 +12,6 @@ enum HomeTab: Int {
 }
 
 struct HomeView: View {
-    @EnvironmentObject private var authEnvironment: AuthEnvironment
     @EnvironmentObject private var coresEnvironment: CoresEnvironment
     
     @State private var selectedTab: HomeTab = HomeTab.resume
@@ -298,6 +297,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
-        .environmentObject(AuthEnvironment())
         .environmentObject(CoresEnvironment())
 }

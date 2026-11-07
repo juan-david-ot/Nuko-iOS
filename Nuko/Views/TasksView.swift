@@ -49,12 +49,7 @@ struct TasksView: View {
                                     .fill(.thinMaterial)
                                     .frame(height: 300)
                             }
-                        } else if taskLists.isEmpty {
-                            Text("No hay ningún núcleo activo o lista disponible")
-                                .foregroundStyle(.secondary)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 40)
-                        } else {
+                        } else if !taskLists.isEmpty {
                             LazyVStack(spacing: 10) {
                                 ForEach(taskLists.indices, id: \.self) { index in
                                     let taskList = taskLists[index]
@@ -72,6 +67,11 @@ struct TasksView: View {
                                     .background(.surface, in: RoundedRectangle(cornerRadius: 24))
                                 }
                             }
+                        } else {
+                            Text("No hay ningún núcleo activo o lista disponible")
+                                .foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 40)
                         }
                     }
                     .padding(.horizontal, 8)
