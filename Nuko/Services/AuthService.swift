@@ -35,7 +35,7 @@ private nonisolated struct VerifyResponse: Decodable, Sendable {
 enum AuthService {
     static func signUp(_ user: User) async throws -> User {
         let request = AF.shared
-            .request("\(AF.baseURL)/auth/signUp", method: .post, parameters: user, encoder: JSONParameterEncoder.default)
+            .request("\(AF.baseURL)/auth/sign-up", method: .post, parameters: user, encoder: JSONParameterEncoder.default)
             .validate()
         
         return try await decode(User.self, from: request)
@@ -43,7 +43,7 @@ enum AuthService {
     
     static func logIn(_ user: User) async throws -> String {
         let request = AF.shared
-            .request("\(AF.baseURL)/auth/logIn", method: .post, parameters: user, encoder: JSONParameterEncoder.default)
+            .request("\(AF.baseURL)/auth/log-in", method: .post, parameters: user, encoder: JSONParameterEncoder.default)
             .validate()
         
         return try await decode(AuthTokenResponse.self, from: request).authToken
@@ -51,7 +51,7 @@ enum AuthService {
     
     static func forgotPassword(_ email: String) async throws -> Void {
         let request = AF.shared
-            .request("\(AF.baseURL)/auth/forgotPassword", method: .post, parameters: ForgotPasswordBody(email: email), encoder: JSONParameterEncoder.default)
+            .request("\(AF.baseURL)/auth/forgot-password", method: .post, parameters: ForgotPasswordBody(email: email), encoder: JSONParameterEncoder.default)
             .validate()
         
         _ = try await decode(MessageResponse.self, from: request)
@@ -59,7 +59,7 @@ enum AuthService {
     
     static func resetPassword(_ token: String, _ newPassword: String, _ confirmNewPassword: String) async throws -> User {
         let request = AF.shared
-            .request("\(AF.baseURL)/auth/resetPassword", method: .post, parameters: ResetPasswordBody(token: token, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
+            .request("\(AF.baseURL)/auth/reset-password", method: .post, parameters: ResetPasswordBody(token: token, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
             .validate()
         
         return try await decode(User.self, from: request)
@@ -67,7 +67,7 @@ enum AuthService {
     
     static func changePassword(_ password: String, _ newPassword: String, _ confirmNewPassword: String) async throws -> String {
         let request = AF.shared
-            .request("\(AF.baseURL)/auth/changePassword", method: .post, parameters: ChangePasswordBody(password: password, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
+            .request("\(AF.baseURL)/auth/change-password", method: .post, parameters: ChangePasswordBody(password: password, newPassword: newPassword, confirmNewPassword: confirmNewPassword), encoder: JSONParameterEncoder.default)
             .validate()
         
         return try await decode(AuthTokenResponse.self, from: request).authToken
