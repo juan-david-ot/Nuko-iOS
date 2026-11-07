@@ -288,6 +288,8 @@ struct SettingsView: View {
                 .padding()
             }
             .navigationTitle("Ajustes")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarTitleAlignment(.leading)
             .scrollDismissesKeyboard(.interactively)
             .onTapGesture {
                 hideKeyboard()

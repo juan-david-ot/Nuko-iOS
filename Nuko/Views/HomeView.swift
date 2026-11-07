@@ -68,27 +68,26 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(pinnedViews: [.sectionHeaders]) {
-                    Section {
-                        Group {
-                            switch selectedTab {
-                            case .resume: resumeTab
-                            case .core: coreTab
-                            case .chat: chatTab
-                            }
+                LazyVStack {
+                    Group {
+                        switch selectedTab {
+                        case .resume: resumeTab
+                        case .core: coreTab
+                        case .chat: chatTab
                         }
-                        .padding(.horizontal)
-                        .padding(.top, 16)
                     }
-                    header: {
-                        UnderlineTab(selectedTab: $selectedTab)
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-//                            .glassEffect(.clear)
-                    }
+                    .padding(.horizontal)
+                    .padding(.top, 16)
                 }
             }
+            .safeAreaBar(edge: .top, spacing: 0) {
+                UnderlineTab(selectedTab: $selectedTab)
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
+            }
             .navigationTitle("Home")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarTitleAlignment(.leading)
             .task(id: coresEnvironment.core) {
                 await loadCoreInformation()
             }
